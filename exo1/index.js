@@ -1,25 +1,32 @@
-const process = require('process');
 
-let cpt = 10;
-const numberToFind = 78;
-let numberChosen = -1;
+
+
 process.stdin.setRawMode(true);
 
-console.log("Deveinez le nombre \n");
+console.log("Deveinez le nombre entr 1 et 100 \n");
  
-while(cpt > 0 || numberChosen  !== numberToFind){
-    process.stdin.on('readable', function () {
-        var key = String(process.stdin.read());
-        numberChosen = key;
-    });
+process.stdin.on('data', (chunkr) => {
+    let number = parseInt(chunkr)
+    let cpt = 10;
+    const numberToFind = 78;
+    let numberChosen = -1;
 
-    if(numberChosen > numberToFind)
-        console.log("Le nombre est choisit est trop grand")
+    if(isNaN(number)){
+        process.stdout.write("Ce n'est pas un nombre !\n")
+    }
 
-    if(numberChosen < numberToFind)
-        console.log("Le nombre est choisit est trop petit")
+    if(numberChosen > numberToFind){
+        process.stdout.write("trop grand\n")
+    }
 
-    cpt--;
-}
+    if(numberChosen < numberToFind){
+        process.stdout.write("trop petit\n")
+    }
+
+    if(numberChosen === numberToFind){
+        process.stdout.write("Trouver !\n")
+    }
+    
+  });
 
      
