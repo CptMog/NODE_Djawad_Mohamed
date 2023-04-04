@@ -29,6 +29,8 @@ const rl = readline.createInterface({
             }
         }
         console.log("moyenne : "+moyenne/4);
+    }else{
+        console.log('Je ne connais pas cette élève !') 
     }
 
     //si l'on souhaite arrêter le process
