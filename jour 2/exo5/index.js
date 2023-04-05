@@ -36,6 +36,7 @@ const rl = readline.createInterface({
     //si l'on souhaite arrêter le process
     if(line.trim()=='stop'){
         rl.close()
+        return;
     }
 
     rl.prompt();
