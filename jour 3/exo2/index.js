@@ -15,12 +15,19 @@ http.createServer((req,res)=>{
             </head>
             <body>
                 <h1>Hello world : test API</h1>
-                <form>
-                    <input type='text' name='name'/>
+                <form onSubmit='handleSubmit()'>
+                    <input type='text' id='name' name='name'/>
                     <button type='send'>Chercher</button>
                 </form>
                 <p><a href="/all">All</a></p>
             </body>
+            <script>
+                    const inputName = document.querySelector('#name');
+                    function handleSubmit(e){
+                        e.preventDefault();
+                        window.location.replace('http://localhost:1001/search/'+inputName.value);
+                    }
+            </script>
         </html>
         `)
     }
@@ -38,7 +45,7 @@ http.createServer((req,res)=>{
         })
     }
 
-    if(req.url === "/search/"){
+    if(req.url.match('^(\/search\/[a-z]+)')){
         fs.readFile(__dirname+req.url+'.json', (err,data)=>{
             if(err){
                 res.write(404);
