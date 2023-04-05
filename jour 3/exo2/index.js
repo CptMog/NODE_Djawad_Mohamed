@@ -29,11 +29,11 @@ http.createServer((req,res)=>{
         fs.readFile(__dirname+req.url+'.json', (err,data)=>{
             if(err){
                 console.log(__dirname+req.url)
-                res.writeHead(404);
-                res.end(JSON.stringify(err))
+                res.write(404);
+                res.end('erreur')
                 return;
             }
-            res.write(200);
+            res.setHeader("Content-Type", "text/json;charset=utf8");
             res.end(data);
         })
     }
@@ -41,12 +41,11 @@ http.createServer((req,res)=>{
     if(req.url === "/search/"){
         fs.readFile(__dirname+req.url+'.json', (err,data)=>{
             if(err){
-                console.log(__dirname+req.url)
-                res.writeHead(404);
+                res.write(404);
                 res.end(JSON.stringify(err))
                 return;
             }
-            res.write(200);
+            res.setHeader("Content-Type", "text/json;charset=utf8");
             res.end(data);
         })
     }
