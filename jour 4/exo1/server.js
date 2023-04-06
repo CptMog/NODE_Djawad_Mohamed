@@ -43,7 +43,8 @@ http.createServer((req,res)=>{
         req.on('end', () => {
             res.writeHead(200, { 'Content-Type' : 'application/json' });
             res.end( JSON.stringify({ "result" : body }));
-            students.push(body)
+            const name = body.split('=')
+            students.push({name : name[1]})
         });
     }
 
