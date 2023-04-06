@@ -48,9 +48,8 @@ http.createServer((req,res)=>{
     if(req.url.match('^(\/search\/[a-z]+)')){
         fs.readFile(__dirname+req.url+'.json', (err,data)=>{
             if(err){
-                res.write(404);
-                res.end(JSON.stringify(err))
-                return;
+                res.setHeader("Content-Type", "text/json;charset=utf8");
+                res.end('Je ne connais pas cette données')
             }
             res.setHeader("Content-Type", "text/json;charset=utf8");
             res.end(data);
@@ -61,3 +60,5 @@ http.createServer((req,res)=>{
 }).listen(1001,'localhost',()=>{
     console.log("server running on http://localhost:1001")
 })
+
+
