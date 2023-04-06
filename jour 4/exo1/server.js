@@ -41,8 +41,6 @@ http.createServer((req,res)=>{
     
         // On écoute maintenant la fin de l'envoi des données avec la méthode on et l'attribut end
         req.on('end', () => {
-            res.writeHead(200, { 'Content-Type' : 'application/json' });
-            res.end( JSON.stringify({ "result" : body }));
             const name = body.split('=')
             students.push({name : name[1]})
         });
