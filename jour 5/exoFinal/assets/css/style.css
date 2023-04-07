@@ -1,0 +1,20 @@
+body{
+    background-color: gainsboro;
+}
+
+button{
+    padding: 5px;
+    border-radius: 2.5px;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
+
+.kill{
+    background-color: red;
+}
+
+.centered{
+    width: 30%;
+    margin: 5rem auto;
+}

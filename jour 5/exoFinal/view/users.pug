@@ -1,0 +1,16 @@
+doctype html
+html(lang="fr")
+    head
+        meta(charset="UTF-8")
+        <link rel="stylesheet" href="/style">
+        title Document
+    body
+       .centered
+            ul
+                li: a(href='/') home
+                li: a(href='/users') users
+            -
+            ul
+                each student in students
+                    li #{student.name} né le #{student.birth} 
+                        button.kill X
