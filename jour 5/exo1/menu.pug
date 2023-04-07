@@ -1,9 +1,9 @@
 nav
     -
     ul
-    each link in menuItems
-        if link.isActive == true
-            li: a(href='#{link.path}') #{link.title}
-        else
-            li.nav-active: a(href='#{link.path}') #{link.title}
+        each link in menuItems
+            if !link.isActive
+                li: a(href='#{link.path}') #{link.title}
+            else
+                li.nav-active: a(href='#{link.path}') #{link.title}
 
