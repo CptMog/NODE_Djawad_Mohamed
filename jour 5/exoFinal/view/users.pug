@@ -12,5 +12,9 @@ html(lang="fr")
             -
             ul
                 each student in students
-                    li #{student.name} né le #{student.birth} 
-                        button.kill X
+                    li(onClick='deleteUser()') #{student.name} né le #{student.birth} 
+                        button.kill(type="submit") X
+    script.
+            function deleteUser() {
+                alert('delete')
+            };
