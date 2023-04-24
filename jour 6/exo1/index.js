@@ -7,10 +7,11 @@ const server = http.Server(app)
 const io = require('socket.io')(server) 
 
 io.on('connection', (socket) => {
-    console.log('Client', socket.id, 'is connected via WebSockets')
+    console.log('Client ', socket.id, ' is connected via WebSockets')
 })
 
 app.use(express.static('public'));
+
 app.set('views', './views');
 app.set('view engine', 'pug')
 

@@ -23,4 +23,7 @@ html(lang="fr")
                 div.right_colone 
                     <input type="text" placeholder="Tapez votre message ici ..." />
                     hr
-    <script src="./public/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://localhost:9000');
+    </script>
