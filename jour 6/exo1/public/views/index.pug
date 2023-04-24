@@ -5,25 +5,24 @@ html(lang="fr")
         <link rel="stylesheet" href="/style">
         title Chat
     body
-    table 
-        tr
-            th.dark Chat room avec Socket.io
-            th 
-        tr 
-            td.darkgray 
-                ul 
-                    li.title_colone CHANNELS 
-                    li 
-                        a(href="#") General 
-                    li 
-                        a(href="#") Gaming 
-                    li 
-                        a(href="#") Random 
-            td
-                div.right_colone 
-                    <input type="text" placeholder="Tapez votre message ici ..." />
-                    hr
+        table 
+            tr
+                th.dark Chat room avec Socket.io
+                th 
+            tr 
+                td.darkgray 
+                    ul 
+                        li.title_colone CHANNELS 
+                        li 
+                            a(href="#") General 
+                        li 
+                            a(href="#") Gaming 
+                        li 
+                            a(href="#") Random 
+                td
+                    div.right_colone 
+                        <input type="text" placeholder="Tapez votre message ici ..." />
+                        hr
     <script src="/socket.io/socket.io.js"></script>
-    <script>
+    script.
         const socket = io.connect('http://localhost:9000');
-    </script>
