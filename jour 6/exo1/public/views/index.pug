@@ -9,6 +9,7 @@ html(lang="fr")
             tr
                 th.dark Chat room avec Socket.io
                 th 
+                th Bienvenu #{user.name}
             tr 
                 td.darkgray 
                     ul 
@@ -21,8 +22,26 @@ html(lang="fr")
                             a(href="#") Random 
                 td
                     div.right_colone 
-                        <input type="text" placeholder="Tapez votre message ici ..." />
+                        <input type="text" id="msg" placeholder="Tapez votre message ici ..." />
+                        <button class="send">Send</button>
                         hr
+                td  
+                    div.users
+                        p.title UTILISATEURS CONNECTER
+
     <script src="/socket.io/socket.io.js"></script>
     script.
-        const socket = io.connect('http://localhost:9000');
+        const socket = io();
+        var messages = document.querySelector('.right_colone');
+        var input = document.getElementById('msg');
+        var bouton = document.querySelector('.send');
+
+        bouton.addEventListener('click',(e)=>{
+            if (input.value) {
+                var item = document.createElement('p');
+                item.textContent = input.value;
+                socket.emit('chat message', input.value);
+                messages.append(item);
+                input.value = '';
+            }
+        })

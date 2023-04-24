@@ -46,7 +46,8 @@ input{
     background-color: #1d1d1d;
 }
 
-.right_colone{
+.right_colone,.users{
+    overflow-y: scroll;
     width: 300px;
     height: 300px;
 } 

@@ -6,6 +6,7 @@ const app = express();
 const server = http.Server(app)
 const io = require('socket.io')(server) 
 
+const name ="";
 io.on('connection', (socket) => {
     console.log('Client', socket.id, 'is connected via WebSockets')
 })
@@ -17,7 +18,7 @@ app.set('view engine', 'pug')
 
 app.get('/',(req,res)=>{
     const compiledFile = pug.compileFile('./public/views/index.pug');
-    const data = compiledFile()
+    const data = compiledFile({user:name})
     res.sendStatus = 200
     res.setHeader('Content-type','text/html');
     res.send(data)
