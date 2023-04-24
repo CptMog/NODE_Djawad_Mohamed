@@ -1,0 +1,26 @@
+doctype html
+html(lang="fr")
+    head
+        meta(charset="UTF-8")
+        <link rel="stylesheet" href="/style">
+        title Chat
+    body
+    table 
+        tr
+            th.dark Chat room avec Socket.io
+            th 
+        tr 
+            td.darkgray 
+                ul 
+                    li.title_colone CHANNELS 
+                    li 
+                        a(href="#") General 
+                    li 
+                        a(href="#") Gaming 
+                    li 
+                        a(href="#") Random 
+            td
+                div.right_colone 
+                    <input type="text" placeholder="Tapez votre message ici ..." />
+                    hr
+    <script src="./public/socket.io/socket.io.js"></script>
