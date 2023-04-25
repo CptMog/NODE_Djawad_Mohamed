@@ -6,9 +6,18 @@ const app = express();
 const server = http.Server(app)
 const io = require('socket.io')(server) 
 
-const name ="";
+const users =[];
+
 io.on('connection', (socket) => {
     console.log('Client', socket.id, 'is connected via WebSockets')
+    socket.on('message send', (msg) => {
+        io.emit('message send', msg);
+    });
+
+    socket.on('users connected',(user)=>{
+        users.push(users)
+        io.emit('users connected',user)
+    })
 })
 
 app.use(express.static('public'));
@@ -17,8 +26,8 @@ app.set('views', './views');
 app.set('view engine', 'pug')
 
 app.get('/',(req,res)=>{
-    const compiledFile = pug.compileFile('./public/views/index.pug');
-    const data = compiledFile({user:name})
+    const compiledFile = pug.compileFile('./views/index.pug');
+    const data = compiledFile()
     res.sendStatus = 200
     res.setHeader('Content-type','text/html');
     res.send(data)
@@ -32,4 +41,4 @@ app.get("/style",(req,res)=>{
     return;
 }) 
 
-server.listen(9000, () => console.log(`✓ Le serveur écoute sur le port 9000`))
+server.listen(9000, () => console.log(`✓ Le serveur écoute sur le port http://localhost:9000`))
