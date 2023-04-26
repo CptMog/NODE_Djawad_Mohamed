@@ -25,9 +25,10 @@ html(lang="fr")
                             li 
                                 a(href="#") Random 
                     td
-                        div
+                        div.formMsg
                             <input type="text" id="msg" placeholder="Tapez votre message ici ..." />
                             hr
+                        div.typings
                         div.right_colone 
                             
                     td  
@@ -37,16 +38,19 @@ html(lang="fr")
     <script src="/socket.io/socket.io.js"></script>
     script.
         const socket = io.connect("/");
-
+        let idTimeout ='';
         //infos user.
         let userConnected = ""
         var nameP = document.querySelector('.name');
         var pseudo = document.querySelector('#pseudo');
         var boutonCon = document.querySelector('form button');
+
         //info message.
         var messages = document.querySelector('.right_colone');
         var input = document.getElementById('msg');
         var usersCo = document.querySelector('.users');
+        var typings = document.querySelector('.typings');
+
         //connexion user
         boutonCon.addEventListener('click',(e)=>{
             e.preventDefault()
@@ -62,24 +66,31 @@ html(lang="fr")
 
             }
         })
-
+        
+        //envoie de msg et écoute qui écrit
         input.addEventListener('keydown',(event)=>{
-            if (event.key == "Enter") {              
+
+            if (event.key == "Enter") {  
+                if(idTimeout){clearTimeout(idTimeout)}
+                socket.emit('notify typing','');    
                 socket.emit('message send', {msg:input.value,user:userConnected});
                 input.value = '';
+            }else{
+                if(userConnected){
+                    socket.emit('notify typing',userConnected);
+                    if(idTimeout){clearTimeout(idTimeout)}
+                    idTimeout = setTimeout(()=>{
+                        socket.emit('notify typing','');
+                    },3200) 
+                }
             }
         })
 
-        socket.on('users connected', function(tab_string) {
-                //let tabUser = JSON.parse(tab_string);
-        
-                //for(const elem of tabUser){
-                    var item = document.createElement('p');
-                    item.style.marginTop = "5px";
-                    item.textContent = tab_string;
-                    usersCo.append(item);
-               // }
-
+        socket.on('users connected', function(user) {
+                var item = document.createElement('p');
+                item.style.marginTop = "5px";
+                item.textContent = user;
+                usersCo.append(item);
         });
 
         socket.on('message send', function(entry) {
@@ -87,10 +98,21 @@ html(lang="fr")
                 item.style.marginTop = "5px";
                 var hr = document.createElement('hr');
                 item.innerHTML = `
-                            <span style="display:inline-block;color:white;padding:5px 10px;background-color:gray;border-radius:5px">${entry.user.toString()}</span>
-                            <span style="display:inline-block;">: ${entry.msg.toString()}</span>
+                    <span style="display:inline-block;color:white;padding:5px 10px;background-color:gray;border-radius:5px">${entry.user.toString()}</span>
+                    <span style="display:inline-block;">: ${entry.msg.toString()}</span>
                 `
                 messages.append(item);
                 messages.append(hr);
+        });
+
+        socket.on('notify typing',function(userT){
+            typings.innerHTML = "";
+            if(userT.length !== 0){
+                typings.innerHTML=`
+                    <p style="font-size:11px;font-weight:bold;margin-top:5px">
+                        ${userT} est en train d'écrire ...
+                    </p>
+                `
+            }
         });
 

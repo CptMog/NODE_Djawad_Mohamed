@@ -6,7 +6,6 @@ const app = express();
 const server = http.Server(app)
 const io = require('socket.io')(server) 
 
-const users =[];
 
 io.on('connection', (socket) => {
     console.log('Client', socket.id, 'is connected via WebSockets')
@@ -15,8 +14,11 @@ io.on('connection', (socket) => {
     });
 
     socket.on('users connected',(user)=>{
-        users.push(users)
         io.emit('users connected',user)
+    })
+
+    socket.on('notify typing',(userTyp)=>{
+        io.emit('notify typing',userTyp)
     })
 })
 
