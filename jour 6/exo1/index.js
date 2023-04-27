@@ -5,21 +5,32 @@ const http = require('http')
 const app = express();
 const server = http.Server(app)
 const io = require('socket.io')(server) 
-
+let ROOM = ""
 
 io.on('connection', (socket) => {
     console.log('Client', socket.id, 'is connected via WebSockets')
+
+    socket.on('change channel',(room)=>{
+        
+        if(ROOM !== "")socket.leave(ROOM);
+        ROOM=room;
+        socket.join(ROOM);
+    })
+    
     socket.on('message send', (msg) => {
-        io.emit('message send', msg);
+
+        io.to(ROOM).emit('message send', msg);
     });
 
     socket.on('users connected',(user)=>{
-        io.emit('users connected',user)
+        io.to(ROOM).emit('users connected',user)
     })
 
     socket.on('notify typing',(userTyp)=>{
-        io.emit('notify typing',userTyp)
+        io.to(ROOM).emit('notify typing',userTyp)
     })
+    
+
 })
 
 app.use(express.static('public'));

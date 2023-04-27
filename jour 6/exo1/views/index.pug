@@ -19,11 +19,11 @@ html(lang="fr")
                         ul 
                             li.title_colone CHANNELS 
                             li 
-                                a(href="#") General 
+                                span(style="color:blue") General 
                             li 
-                                a(href="#") Gaming 
+                                span Graphism 
                             li 
-                                a(href="#") Random 
+                                span Développement 
                     td
                         div.formMsg
                             <input type="text" id="msg" placeholder="Tapez votre message ici ..." />
@@ -39,8 +39,24 @@ html(lang="fr")
     script.
         const socket = io.connect("/");
         let idTimeout ='';
+        let users=[];
+        socket.emit('change channel','General');
+
+        //change rooms
+        const links = document.querySelectorAll('li span');
+        for(const link of links){
+            link.onclick = (evt)=>{
+                for(const link of links){
+                    link.style.color="black";
+                }
+                link.style.color="blue";
+                typings.innerHTML="";
+                socket.emit('change channel',link.textContent);
+            }
+        }
+
         //infos user.
-        let userConnected = ""
+        let userConnected = "";
         var nameP = document.querySelector('.name');
         var pseudo = document.querySelector('#pseudo');
         var boutonCon = document.querySelector('form button');
@@ -70,13 +86,13 @@ html(lang="fr")
         //envoie de msg et écoute qui écrit
         input.addEventListener('keydown',(event)=>{
 
-            if (event.key == "Enter") {  
+            if (event.key == "Enter" && userConnected) {  
                 if(idTimeout){clearTimeout(idTimeout)}
                 socket.emit('notify typing','');    
                 socket.emit('message send', {msg:input.value,user:userConnected});
                 input.value = '';
             }else{
-                if(userConnected){
+                if(userConnected && userConnected){
                     socket.emit('notify typing',userConnected);
                     if(idTimeout){clearTimeout(idTimeout)}
                     idTimeout = setTimeout(()=>{
@@ -87,10 +103,14 @@ html(lang="fr")
         })
 
         socket.on('users connected', function(user) {
-                var item = document.createElement('p');
-                item.style.marginTop = "5px";
-                item.textContent = user;
-                usersCo.append(item);
+                users.push(user)
+                usersCo.innerHTML="";
+                for(const elem of users){
+                    var item = document.createElement('p');
+                    item.style.marginTop = "5px";
+                    item.textContent = elem;
+                    usersCo.append(item);
+                }
         });
 
         socket.on('message send', function(entry) {
@@ -115,4 +135,3 @@ html(lang="fr")
                 `
             }
         });
-
